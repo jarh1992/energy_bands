@@ -311,6 +311,7 @@ $(document).ready(function(){
         G_ec_val = data['G_Ec'];
         G_efi_val = data['G_Efi'];
         G_ev_val = data['G_Ev'];
+        G_eg_val = data['G_Eg'];
         G_nc_electron = data['G_Nc_electron'];
         G_nc_hole = data['G_Nc_hole'];
         G_ni_electron = data['G_Ni_electron'];
@@ -318,6 +319,7 @@ $(document).ready(function(){
         A_ec_val = data['A_Ec'];
         A_efi_val = data['A_Efi'];
         A_ev_val = data['A_Ev'];
+        A_eg_val = data['A_Eg'];
         A_nc_electron = data['A_Nc_electron'];
         A_nc_hole = data['A_Nc_hole'];
         A_ni_electron = data['A_Ni_electron'];
@@ -334,6 +336,7 @@ $(document).ready(function(){
         $('#G_span_Ev').text(G_ev_val)
         $('#G_span_Ec').text(G_ec_val)
         $('#G_span_Efi').text(G_efi_val)
+        $('#G_span_Eg').text(G_eg_val)
         $('#G_nc_electron').text(G_nc_electron)
         $('#G_nc_hole').text(G_nc_hole)
         $('#G_ni_electron').text(G_ni_electron)
@@ -341,6 +344,7 @@ $(document).ready(function(){
         $('#A_span_Ev').text(A_ev_val)
         $('#A_span_Ec').text(A_ec_val)
         $('#A_span_Efi').text(A_efi_val)
+        $('#A_span_Eg').text(A_eg_val)
         $('#A_nc_electron').text(A_nc_electron)
         $('#A_nc_hole').text(A_nc_hole)
         $('#A_ni_electron').text(A_ni_electron)
