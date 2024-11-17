@@ -308,29 +308,42 @@ $(document).ready(function(){
       contentType: 'application/json; charset=utf-8',
       dataType: "json",
       success: function (data, status, xhr) {
-        ec_val = data['Ec'];
-        efi_val = data['Efi'];
-        ev_val = data['Ev'];
+        G_ec_val = data['G_Ec'];
+        G_efi_val = data['G_Efi'];
+        G_ev_val = data['G_Ev'];
+        G_nc_electron = data['G_Nc_electron'];
+        G_nc_hole = data['G_Nc_hole'];
+        G_ni_electron = data['G_Ni_electron'];
+
+        A_ec_val = data['A_Ec'];
+        A_efi_val = data['A_Efi'];
+        A_ev_val = data['A_Ev'];
+        A_nc_electron = data['A_Nc_electron'];
+        A_nc_hole = data['A_Nc_hole'];
+        A_ni_electron = data['A_Ni_electron'];
+
         ec_val_2 = data['Ec2'];
         efi_val_2 = data['Efi2'];
         ev_val_2 = data['Ev2'];
-        nc_electron = data['Nc_electron'];
-        nc_hole = data['Nc_hole'];
-        ni_electron = data['Ni_electron'];
-        ni_hole = data['Ni_hole'];
         rann = r_chart.options.plugins.annotation.annotations
-        edit_annotation(rann, ec_val, efi_val, ev_val)
+        edit_annotation(rann, G_ec_val, G_efi_val, G_ev_val)
         lann = l_chart.options.plugins.annotation.annotations
-        edit_annotation(lann, ec_val_2, efi_val_2, ev_val_2)
+        edit_annotation(lann, A_ec_val, A_efi_val, A_ev_val)
         l_chart.update();
         r_chart.update();
-        $('#span_Ev').text(ev_val)
-        $('#span_Ec').text(ec_val)
-        $('#span_Efi').text(efi_val)
-        $('#nc_electron').text(nc_electron)
-        $('#nc_hole').text(nc_hole)
-        $('#ni_electron').text(ni_electron)
-        $('#ni_hole').text(ni_hole)
+        $('#G_span_Ev').text(G_ev_val)
+        $('#G_span_Ec').text(G_ec_val)
+        $('#G_span_Efi').text(G_efi_val)
+        $('#G_nc_electron').text(G_nc_electron)
+        $('#G_nc_hole').text(G_nc_hole)
+        $('#G_ni_electron').text(G_ni_electron)
+
+        $('#A_span_Ev').text(A_ev_val)
+        $('#A_span_Ec').text(A_ec_val)
+        $('#A_span_Efi').text(A_efi_val)
+        $('#A_nc_electron').text(A_nc_electron)
+        $('#A_nc_hole').text(A_nc_hole)
+        $('#A_ni_electron').text(A_ni_electron)
       },
       error: function (jqXhr, textStatus, errorMessage) {
         $('p').append('Error' + errorMessage);

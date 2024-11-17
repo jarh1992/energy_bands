@@ -9,55 +9,8 @@ h = 4.135667696e-15  # Constante de Planck [eV⋅s]
 ħ = 6.582119569e-16  # Constante reducida de Planck [eV⋅s]
 KB = 8.617333262e-5  # Constante de Boltzmann  [eV/K-1]
 e = 1.602176634e-19  # Carga elemental [C]
-me = 0.51099e6 / (29979245800)**2  # masa del electrón [eV/cm2]
-epsilon0 = 55.263 * (e**2) / 10**(-4) # Permitividad del vacío [eV cm]
-
-# ioffe
-GaAs = {
-    'eem': 0.067 * me,  # Electron effective mass mo * electron mass me
-    'hem': 0.48 * me,  # Hole effective mass mo
-    'eaf': 4.07  # Electron affinity eV
-}
-
-
-class Index(View):
-    template_name = 'index.html'
-
-    def get_context_data(self, **kwargs):
-        ctx = super(Index, self).get_context_data(**kwargs)
-        return ctx
-
-    def get(self, request, *args, **kwargs):
-        return render(request, 'index.html')
-
-    def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        T = float(data['T'])
-        c = float(data['C'])
-        d = float(data['D'])
-        Ec = GaAs['eaf']  # electron afinity
-        Eg = passler(T)     # generar grafica T vs Eg
-        Ev = Ec + Eg
-        Efi = fermi_energy_level(GaAs['hem'], GaAs['eem'], Eg, T)
-        nc_electron = effective_density_states(GaAs['eem'], T)
-        nc_hole = effective_density_states(GaAs['hem'])
-        ni_electron = intrinsic_concentration(nc_electron, Ec, Efi, 0, nc_type='e', T=T)
-        ni_hole = intrinsic_concentration(nc_hole, 0, Efi, Ev, nc_type='h', T=T)
-        ctx = {
-            'Ec': Ec,
-            'Efi': Efi,
-            'Ev': Ev,
-            'Eg': Eg,
-            'Nc_electron': np.format_float_scientific(nc_electron, unique=False, precision=17),
-            'Nc_hole': np.format_float_scientific(nc_hole, unique=False, precision=17),
-            'Ni_electron': np.format_float_scientific(ni_electron, unique=False, precision=17),
-            'Ni_hole': np.format_float_scientific(ni_hole, unique=False, precision=17),
-            'Ec2': T + 4,
-            'Efi2': c + 5,
-            'Ev2': d + 3
-        }
-        print(ctx)
-        return JsonResponse(ctx)
+me = 0.51099e6 / (29979245800 ** 2)  # masa del electrón [eV/cm2]
+eps0 = 55.263 * (e**2) / 1e-4  # Permitividad del vacío [eV cm]
 
 
 def varshni_rel(T = 77):
@@ -102,28 +55,91 @@ def effective_density_states(effective_mass, T=300.0):
     """
 
     nc = 2 * ((2 * np.pi * effective_mass * KB * 300) / (h**2)) ** (3/2)
-    nc = np.float64(nc)
+    # nc = np.float64(nc)
+    # nc = np.format_float_scientific(nc, unique=False, precision=17),
     return nc
 
 
-def intrinsic_concentration(nc, ec, efi, ev, nc_type='e', T=300.0):
+def intrinsic_concentration(nc, nh, Eg, T=300.0):
     """
     intrinsic_concentration
 
     Parameters
     ----------
-    nc: effective Density of States
-    ec: conduction band
-    efi: fermi energy level
-    ev: valence band
-    nc_type: effective density of states: 'e' (electron) or 'h' (hole)
+    nc: Electron effective Density of States
+    nh: Hole effective Density of States
     T: temperature
 
     """
-    if nc_type == 'e':
-        exp = np.exp(- (ec - efi) / (KB * T))
-    else:
-        exp = np.exp(- (efi - ev) / (KB * T))
 
-    ni = nc * exp
+    ni = np.sqrt(nc * nh * np.exp(-Eg / (KB * T)))
+    ni = np.format_float_scientific(ni, unique=False, precision=3)
     return ni
+
+
+# ioffe
+GaAs = {
+    'eem': 0.067 * me,  # Electron effective mass mo * electron mass me
+    'hem': 0.48 * me,  # Hole effective mass mo
+    'eaf': 4.07,  # Electron affinity eV
+    'eg': lambda T: passler(T)
+}
+
+AlGaAs = {
+    'eem': lambda x: (0.067 + 0.083 * x) * me,  # Electron effective mass mo * electron mass me
+    'hem': lambda x: (0.85 - 0.14 * x) * me,  # Hole effective mass mo
+    'eaf': lambda x: 1.02 * x + 3.05,  # Electron affinity eV
+    'eg': lambda T, x: passler(T) + 1.2475 * x
+}
+
+
+class Index(View):
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(Index, self).get_context_data(**kwargs)
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'index.html')
+
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        T = float(data['T'])
+        c = float(data['C'])
+        d = float(data['D'])
+
+        G_Ec = GaAs['eaf']  # electron afinity
+        G_Eg = GaAs['eg'](T)  # generar grafica T vs Eg
+        G_Ev = G_Ec + G_Eg
+        G_Efi = fermi_energy_level(GaAs['hem'], GaAs['eem'], G_Eg, T)
+        G_nc_electron = effective_density_states(GaAs['eem'], T)
+        G_nc_hole = effective_density_states(GaAs['hem'])
+        G_ni_electron = intrinsic_concentration(G_nc_electron, G_nc_hole, G_Eg, T=T)
+
+        A_Ec = AlGaAs['eaf'](c)
+        A_Eg = AlGaAs['eg'](T, c)
+        A_Ev = A_Ec + A_Eg
+        A_Efi = fermi_energy_level(AlGaAs['hem'](c), AlGaAs['eem'](c), A_Eg, T)
+        A_nc_electron = effective_density_states(AlGaAs['eem'](c), T)
+        A_nc_hole = effective_density_states(AlGaAs['hem'](c))
+        A_ni_electron = intrinsic_concentration(A_nc_electron, A_nc_hole, A_Eg, T=T)
+
+        ctx = {
+            'G_Ec': G_Ec,
+            'G_Efi': G_Efi,
+            'G_Ev': G_Ev,
+            'G_Eg': G_Eg,
+            'G_Nc_electron': np.format_float_scientific(G_nc_electron, unique=False, precision=3),
+            'G_Nc_hole': np.format_float_scientific(G_nc_hole, unique=False, precision=3),
+            'G_Ni_electron': G_ni_electron,
+            'A_Ec': A_Ec,
+            'A_Efi': A_Efi,
+            'A_Ev': A_Ev,
+            'A_Eg': A_Eg,
+            'A_Nc_electron': np.format_float_scientific(A_nc_electron, unique=False, precision=3),
+            'A_Nc_hole': np.format_float_scientific(A_nc_hole, unique=False, precision=3),
+            'A_Ni_electron': A_ni_electron,
+        }
+        print(ctx)
+        return JsonResponse(ctx)
