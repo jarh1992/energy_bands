@@ -87,8 +87,10 @@ GaAs = {
 
 AlGaAs = {
     'eem': lambda x: (0.067 + 0.083 * x) * me,  # Electron effective mass mo * electron mass me
-    'hem': lambda x: (0.85 - 0.14 * x) * me,  # Hole effective mass mo
-    'eaf': lambda x: 1.02 * x + 3.05,  # Electron affinity eV
+    # 'hem': lambda x: (0.85 - 0.14 * x) * me,  # Hole effective mass mo
+    'hem': lambda x: (0.48 - 0.14 * x) * me,  # Hole effective mass mo
+    # 'eaf': lambda x: 1.02 * x + 3.05,  # Electron affinity eV
+    'eaf': lambda x: 1.02 * x + 4.07,  # Electron affinity eV
     'eg': lambda T, x: passler(T) + 1.2475 * x
 }
 

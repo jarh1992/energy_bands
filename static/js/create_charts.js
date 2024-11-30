@@ -57,7 +57,8 @@ var r_config = {
             label: {
               content: 'Vacuum level',
               enabled: true,
-              position: 'start'
+              position: 'start',
+              useHTML: true
             }
           },
           Ec: {
@@ -67,9 +68,10 @@ var r_config = {
             borderColor: 'blue',
             borderWidth: 2,
             label: {
-              content: 'Ec',
+              content: 'E_c',
               enabled: true,
-              position: 'start'
+              position: 'start',
+              useHTML: true
             }
           },
           Efi: {
@@ -79,9 +81,10 @@ var r_config = {
             borderColor: 'blue',
             borderWidth: 2,
             label: {
-              content: 'Efi',
+              content: 'E_{fi}',
               enabled: true,
-              position: 'start'
+              position: 'start',
+              useHTML: true
             }
           },
           Ev: {
@@ -91,9 +94,10 @@ var r_config = {
             borderColor: 'blue',
             borderWidth: 2,
             label: {
-              content: 'Ev',
+              content: 'E_v',
               enabled: true,
-              position: 'start'
+              position: 'start',
+              useHTML: true
             }
           },
           base_ec: {
@@ -182,7 +186,8 @@ const l_config = {
             label: {
               content: 'Vacuum level',
               enabled: true,
-              position: 'end'
+              position: 'end',
+              useHTML: true
             }
           },
           Ec: {
@@ -192,9 +197,10 @@ const l_config = {
             borderColor: 'blue',
             borderWidth: 2,
             label: {
-              content: 'Ec',
+              content: 'E_c',
               enabled: true,
-              position: 'end'
+              position: 'end',
+              useHTML: true
             }
           },
           Efi: {
@@ -204,9 +210,10 @@ const l_config = {
             borderColor: 'blue',
             borderWidth: 2,
             label: {
-              content: 'Efi',
+              content: 'E_{fi}',
               enabled: true,
-              position: 'end'
+              position: 'end',
+              useHTML: true
             }
           },
           Ev: {
@@ -216,9 +223,10 @@ const l_config = {
             borderColor: 'blue',
             borderWidth: 2,
             label: {
-              content: 'Ev',
+              content: 'E_v',
               enabled: true,
-              position: 'end'
+              position: 'end',
+              useHTML: true
             }
           },
           base_ec: {
@@ -324,9 +332,9 @@ $(document).ready(function(){
         A_nc_hole = data['A_Nc_hole'];
         A_ni_electron = data['A_Ni_electron'];
 
-        ec_val_2 = data['Ec2'];
-        efi_val_2 = data['Efi2'];
-        ev_val_2 = data['Ev2'];
+        // ec_val_2 = data['Ec2'];
+        // efi_val_2 = data['Efi2'];
+        // ev_val_2 = data['Ev2'];
         rann = r_chart.options.plugins.annotation.annotations
         edit_annotation(rann, G_ec_val, G_efi_val, G_ev_val)
         lann = l_chart.options.plugins.annotation.annotations

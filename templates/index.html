@@ -94,6 +94,14 @@
       display: block !important;
     }
   </style>
+  <script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml']}
+  }
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 </head>
 <body class="d-flex flex-column h-100">
     
@@ -167,25 +175,47 @@
     <div class="col-md-6" name="l_side_div" id="l_side_div" hidden="true">
       <h1 class="mt-5">AlGaAs</h1>
       <canvas name="l_side" id="l_side" width="800" height="400"></canvas>
-      <p>Ev = <span id="A_span_Ev"></span></p>
-      <p>Ec = <span id="A_span_Ec"></span></p>
-      <p>Efi = <span id="A_span_Efi"></span></p>
-      <p>Eg = <span id="A_span_Eg"></span></p>
-      <p>Densidad de estados efectiva electron = <span id="A_nc_electron"></span></p> 
-      <p>Densidad de estados efectiva hueco = <span id="A_nc_hole"></span></p> 
-      <p>Concentracion intrinseca electron = <span id="A_ni_electron"></span></p>
+{#      si se trata de potencial, energia / carga (e . = carga . voltaje)#}
+{#      ir poniendo densidad de dopamiento tipo P#}
+{#      pestañas para dopamiento tipo N (aplicado a AlGaAs), dopamiento tipo P (aplicado a GaAs)#}
+{#      agregar constantes masa efectiva electron, hueco... #}
+{#      colocar simbolos y unidades a los valores de abajo#}
+{#      nombre en negrilla#}
+{#      3 cifras significativas#}
+{#      N_e#}
+      <p><b>Densidad de estados efectiva electron:</b> \( N_e = \) <span id="A_nc_electron"></span></p>
+{#      N_h#}
+      <p><b>Densidad de estados efectiva hueco:</b> \( N_h = \) <span id="A_nc_hole"></span></p>
+{#      n_i#}
+      <p><b>Concentracion intrinseca electron:</b> \( n_i = \) <span id="A_ni_electron"></span></p>
+{#      E_v#}
+      <p>\( E_v = \)<span id="A_span_Ev"></span></p>
+      <p>\( E_c = \)<span id="A_span_Ec"></span></p>
+      <p>\( E_{fi} = \)<span id="A_span_Efi"></span></p>
+      <p>\( E_g = \)<span id="A_span_Eg"></span></p>
     </div>
 
     <div class="col-md-6">
       <h1 class="mt-5">GaAs</h1>
       <canvas name="r_side" id="r_side" width="800" height="400"></canvas>
-      <p>Ev = <span id="G_span_Ev"></span></p>
-      <p>Ec = <span id="G_span_Ec"></span></p>
-      <p>Efi = <span id="G_span_Efi"></span></p>
-      <p>Eg = <span id="G_span_Eg"></span></p>
-      <p>Densidad de estados efectiva electron = <span id="G_nc_electron"></span></p> 
-      <p>Densidad de estados efectiva hueco = <span id="G_nc_hole"></span></p> 
-      <p>Concentracion intrinseca electron = <span id="G_ni_electron"></span></p>
+{#      si se trata de potencial, energia / carga.  (e = carga . voltaje)#}
+{#      ir poniendo densidad de dopamiento tipo P#}
+{#      pestañas para dopamiento tipo N (aplicado a AlGaAs), dopamiento tipo P (aplicado a GaAs)#}
+{#      agregar constantes masa efectiva electron, hueco... #}
+{#      colocar simbolos y unidades a los valores de abajo#}
+{#      nombre en negrilla#}
+{#      3 cifras significativas#}
+{#      N_e#}
+      <p><b>Densidad de estados efectiva electron:</b> \( N_e = \) <span id="G_nc_electron"></span></p>
+{#      N_h#}
+      <p><b>Densidad de estados efectiva hueco:</b> \( N_h = \) <span id="G_nc_hole"></span></p>
+{#      n_i#}
+      <p><b>Concentracion intrinseca electron:</b> \( n_i = \) <span id="G_ni_electron"></span></p>
+{#      E_v#}
+      <p>\( E_v = \)<span id="G_span_Ev"></span></p>
+      <p>\( E_c = \)<span id="G_span_Ec"></span></p>
+      <p>\( E_{fi} = \)<span id="G_span_Efi"></span></p>
+      <p>\( E_g = \)<span id="G_span_Eg"></span></p>
     </div>
   </div>
 
@@ -199,6 +229,8 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="{% static 'js/color-modes.js'%}"></script>
 <script src="{% static 'dist/js/bootstrap.bundle.min.js'%}"></script>
+{#<script type="text/javascript" id="MathJax" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>#}
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
 <script src="{% static 'js/create_charts.js'%}"></script>
