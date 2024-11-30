@@ -1,5 +1,8 @@
 .idea
 .env
 venv
+*.pyc
+*.pyo
+*.pyd
 __pycache__/
 *.py[cod]
